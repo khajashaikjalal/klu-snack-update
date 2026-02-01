@@ -1,0 +1,102 @@
+import React, { useState } from 'react';
+import { Pencil, Check, Plus } from 'lucide-react';
+import Header from '../components/layout/Header';
+import Button from '../components/ui/Button';
+import AddSnackModal from '../components/snack/AddSnackModal';
+import VerificationModal from '../components/snack/VerificationModal';
+import Skeleton from '../components/ui/Skeleton';
+
+const HomeScreen = ({ snack, verifications, isVerified, onAddSnack, onVerifySnack, onUpdateSnack, loading }) => {
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+
+    const today = new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+    });
+
+    const handleAddSubmit = (name) => {
+        onAddSnack(name);
+        setIsAddModalOpen(false);
+    };
+
+    const handleVerificationYes = () => {
+        onVerifySnack();
+        setIsVerifyModalOpen(false);
+    };
+
+    const handleUpdateCallback = (newName) => {
+        onUpdateSnack(newName);
+        setIsVerifyModalOpen(false);
+    };
+
+    return (
+        <>
+            <Header />
+            <main className="px-4 pb-8 fade-in">
+                <div className="feature-card">
+                    <div className="date-display">{today}</div>
+
+                    {loading ? (
+                        <div className="flex flex-col items-center gap-4 py-4">
+                            {/* Snack Name Skeleton */}
+                            <Skeleton className="h-8 w-3/4 rounded-md" />
+
+                            {/* Status/Icon Skeleton */}
+                            <div className="flex items-center gap-2 mt-2">
+                                <Skeleton className="h-4 w-32 rounded" />
+                            </div>
+                        </div>
+                    ) : snack ? (
+                        <div className="animate-fade-in">
+                            <div className="snack-display-container">
+                                <h2 className="snack-name">{snack}</h2>
+                                <button
+                                    className="edit-icon-btn"
+                                    onClick={() => setIsVerifyModalOpen(true)}
+                                    aria-label="Edit or Verify Snack"
+                                >
+                                    <Pencil size={20} />
+                                </button>
+                            </div>
+                            <div className="verification-status">
+                                {isVerified || verifications > 0 ? (
+                                    <>
+                                        <Check size={16} /> Verified by {verifications} student{verifications !== 1 ? 's' : ''}
+                                    </>
+                                ) : (
+                                    <span className="text-gray-400 font-normal italic text-sm">Not verified yet</span>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="py-8 animate-fade-in">
+                            <h2 className="empty-state-title">Snack not updated yet</h2>
+                            <p className="empty-state-subtitle">Usually updated after 5:00 PM</p>
+                            <Button onClick={() => setIsAddModalOpen(true)} variant="primary">
+                                <Plus size={18} /> Add Today's Snack
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            </main>
+
+            <AddSnackModal
+                isOpen={isAddModalOpen}
+                onClose={() => setIsAddModalOpen(false)}
+                onSubmit={handleAddSubmit}
+            />
+
+            <VerificationModal
+                isOpen={isVerifyModalOpen}
+                onClose={() => setIsVerifyModalOpen(false)}
+                onVerify={handleVerificationYes}
+                onUpdate={handleUpdateCallback}
+            />
+        </>
+    );
+};
+
+export default HomeScreen;
