@@ -2,7 +2,7 @@
 
 A premium, real-time web application designed to keep students updated on the daily evening snack. Built with **React**, **Vite**, and **Firebase Firestore**.
 
-![App Screenshot](https://via.placeholder.com/800x400?text=App+Screenshot+Placeholder)
+![App Screenshot](public/screenshot.png)
 
 ## ✨ Features
 
