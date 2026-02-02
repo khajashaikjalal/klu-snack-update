@@ -8,7 +8,8 @@ import { doc, onSnapshot, setDoc, updateDoc, increment, serverTimestamp } from '
 function App() {
   const [snack, setSnack] = useState(null);
   const [lastUpdated, setLastUpdated] = useState("");
-  const [verifications, setVerifications] = useState(0);
+  const [yesCount, setYesCount] = useState(0); // Renamed from verifications for clarity, though kept prop name usually
+  const [noCount, setNoCount] = useState(0);
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -61,19 +62,22 @@ function App() {
           if (showSnack) {
             setSnack(snackName);
             setLastUpdated(formattedTime);
-            setVerifications(data.yesCount || 0);
+            setYesCount(data.yesCount || 0);
+            setNoCount(data.noCount || 0);
             setIsVerified((data.yesCount || 0) > 0);
           } else {
             // Old data or invalid date
             setSnack(null);
-            setVerifications(0);
+            setYesCount(0);
+            setNoCount(0);
             setIsVerified(false);
           }
 
         } else {
           // No document exists
           setSnack(null);
-          setVerifications(0);
+          setYesCount(0);
+          setNoCount(0);
           setIsVerified(false);
         }
       },
@@ -92,6 +96,7 @@ function App() {
       await setDoc(doc(db, "snack", "today"), {
         snackName: name,
         yesCount: 0,
+        noCount: 0,
         updatedAt: serverTimestamp()
       });
     } catch (error) {
@@ -111,11 +116,23 @@ function App() {
     }
   };
 
+  const handleVoteNo = async () => {
+    try {
+      await updateDoc(doc(db, "snack", "today"), {
+        noCount: increment(1)
+      });
+    } catch (error) {
+      console.error("Error recording contribution:", error);
+      alert("Failed to record contribution.");
+    }
+  };
+
   const handleUpdateSnack = async (newName) => {
     try {
       await updateDoc(doc(db, "snack", "today"), {
         snackName: newName,
         yesCount: 0,
+        noCount: 0,
         updatedAt: serverTimestamp()
       });
     } catch (error) {
@@ -139,10 +156,12 @@ function App() {
       <HomeScreen
         snack={snack}
         lastUpdated={lastUpdated}
-        verifications={verifications}
+        verifications={yesCount}
+        noCount={noCount}
         isVerified={isVerified}
         onAddSnack={handleAddSnack}
         onVerifySnack={handleVerifySnack}
+        onVoteNo={handleVoteNo}
         onUpdateSnack={handleUpdateSnack}
         loading={loading}
       />

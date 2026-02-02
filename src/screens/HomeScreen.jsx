@@ -6,7 +6,7 @@ import AddSnackModal from '../components/snack/AddSnackModal';
 import VerificationModal from '../components/snack/VerificationModal';
 import Skeleton from '../components/ui/Skeleton';
 
-const HomeScreen = ({ snack, lastUpdated, verifications, isVerified, onAddSnack, onVerifySnack, onUpdateSnack, loading }) => {
+const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
 
@@ -99,7 +99,10 @@ const HomeScreen = ({ snack, lastUpdated, verifications, isVerified, onAddSnack,
                 isOpen={isVerifyModalOpen}
                 onClose={() => setIsVerifyModalOpen(false)}
                 onVerify={handleVerificationYes}
+                onVoteNo={onVoteNo}
                 onUpdate={handleUpdateCallback}
+                yesCount={verifications}
+                noCount={noCount}
             />
         </>
     );
