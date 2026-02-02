@@ -48,7 +48,13 @@ function App() {
 
             if (isSameDay) {
               showSnack = true;
-              formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+              // Force en-US locale and 12-hour format to ensure AM/PM on all devices
+              formattedTime = date.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+              });
             }
           }
 

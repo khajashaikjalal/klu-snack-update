@@ -255,16 +255,30 @@ body {
 }
 
 /* --- Verification Status --- */
+/* --- Verification Status --- */
 .verification-status {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  /* Center content */
   gap: 0.5rem;
-  background: rgba(0, 184, 148, 0.1);
-  color: var(--success-color);
   padding: 0.5rem 1rem;
   border-radius: 12px;
   font-weight: 700;
   font-size: 0.85rem;
+}
+
+.verification-status.verified {
+  background: rgba(0, 184, 148, 0.1);
+  color: var(--success-color);
+}
+
+.verification-status.unverified {
+  background: rgba(0, 0, 0, 0.03);
+  /* Subtle gray */
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-style: italic;
 }
 
 /* --- Skeleton --- */

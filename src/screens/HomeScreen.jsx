@@ -61,21 +61,21 @@ const HomeScreen = ({ snack, lastUpdated, verifications, isVerified, onAddSnack,
                                     <Pencil size={20} />
                                 </button>
                             </div>
-                            {/* Timestamp Display */}
                             {lastUpdated && (
                                 <div className="last-updated">
                                     Updated at {lastUpdated}
                                 </div>
                             )}
-                            <div className="verification-status">
-                                {isVerified || verifications > 0 ? (
-                                    <>
-                                        <Check size={16} /> Verified by {verifications} student{verifications !== 1 ? 's' : ''}
-                                    </>
-                                ) : (
-                                    <span className="text-gray-400 font-normal italic text-sm">Not verified yet</span>
-                                )}
-                            </div>
+
+                            {isVerified || verifications > 0 ? (
+                                <div className="verification-status verified">
+                                    <Check size={16} /> Verified by {verifications} student{verifications !== 1 ? 's' : ''}
+                                </div>
+                            ) : (
+                                <div className="verification-status unverified">
+                                    Not verified yet
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <div className="py-8 animate-fade-in">
