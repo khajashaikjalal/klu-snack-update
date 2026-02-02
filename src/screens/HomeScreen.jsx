@@ -81,12 +81,12 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
                         <div className="py-8 animate-fade-in">
                             <h2 className="empty-state-title">
                                 {new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)
-                                    ? "Wanna eat something!!??"
+                                    ? "Cravings? Hold on! 🛑"
                                     : "Snack not updated yet"}
                             </h2>
                             <p className="empty-state-subtitle">
                                 {new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)
-                                    ? "Snack updates start at 4:30 PM"
+                                    ? "Today's snack drops at 04:30 PM"
                                     : "Usually updated after 5:00 PM"}
                             </p>
                             <Button onClick={() => setIsAddModalOpen(true)} variant="primary">
