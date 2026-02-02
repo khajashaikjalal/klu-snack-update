@@ -89,7 +89,11 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
                                     ? "Today's snack drops at 04:30 PM"
                                     : "Usually updated after 5:00 PM"}
                             </p>
-                            <Button onClick={() => setIsAddModalOpen(true)} variant="primary">
+                            <Button
+                                onClick={() => setIsAddModalOpen(true)}
+                                variant="primary"
+                                disabled={new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)}
+                            >
                                 <Plus size={18} /> Add Today's Snack
                             </Button>
                         </div>
