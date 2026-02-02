@@ -5,16 +5,38 @@ import Button from '../ui/Button';
 const AddSnackModal = ({ isOpen, onClose, onSubmit }) => {
     const [snackName, setSnackName] = useState('');
 
+    const [alertMessage, setAlertMessage] = useState('');
+
+    const isTimeAllowed = () => {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        // 4:30 PM is 16:30
+        return hours > 16 || (hours === 16 && minutes >= 30);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!isTimeAllowed()) {
+            setAlertMessage("Contributions open at 4:30 PM!");
+            return;
+        }
+
         if (snackName.trim()) {
             onSubmit(snackName);
             setSnackName('');
+            setAlertMessage('');
         }
     };
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Add today's snack">
+            {alertMessage && (
+                <div className="mb-6 p-2 bg-yellow-100 text-yellow-800 rounded text-sm text-center">
+                    {alertMessage}
+                </div>
+            )}
             <form onSubmit={handleSubmit} className="vertical-stack">
                 <input
                     type="text"
