@@ -2,119 +2,126 @@ import React, { useState, useEffect } from 'react';
 import HomeScreen from './screens/HomeScreen';
 import './App.css';
 import './index.css';
+import { db } from './firebase';
+import { doc, onSnapshot, setDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
 
 function App() {
   const [snack, setSnack] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState("");
   const [verifications, setVerifications] = useState(0);
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // Refs to hold lazy-loaded Firebase instances
-  const dbRef = React.useRef(null);
-  const firestoreModuleRef = React.useRef(null);
-
   useEffect(() => {
-    let unsubscribe = null;
+    // Simple, direct listener. No complexity.
+    const unsubscribe = onSnapshot(
+      doc(db, "snack", "today"),
+      (docSnap) => {
+        setLoading(false);
+        setErrorMsg(null);
 
-    const initFirebase = async () => {
-      try {
-        // Lazy load Firebase SDK and Config
-        const { db } = await import('./firebase');
-        const { doc, onSnapshot } = await import('firebase/firestore');
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          const snackName = data.snackName;
+          const updatedAt = data.updatedAt;
 
-        dbRef.current = db;
-        // Store module for use in handlers
-        firestoreModuleRef.current = await import('firebase/firestore');
+          // Logic: 
+          // 1. If updatedAt is null, it means it's being written RIGHT NOW (Pending). Show it.
+          // 2. If updatedAt exists, check if it's from today.
 
-        unsubscribe = onSnapshot(doc(db, "snack", "today"), (docSnap) => {
-          setLoading(false);
-          setErrorMsg(null);
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setSnack(data.snackName);
+          let showSnack = false;
+          let formattedTime = "";
+
+          if (updatedAt === null) {
+            showSnack = true; // Pending write -> Show immediately
+            formattedTime = "Just now...";
+          } else {
+            // Check date
+            const date = updatedAt.toDate();
+            const today = new Date();
+
+            const isSameDay =
+              date.getDate() === today.getDate() &&
+              date.getMonth() === today.getMonth() &&
+              date.getFullYear() === today.getFullYear();
+
+            if (isSameDay) {
+              showSnack = true;
+              formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            }
+          }
+
+          if (showSnack) {
+            setSnack(snackName);
+            setLastUpdated(formattedTime);
             setVerifications(data.yesCount || 0);
             setIsVerified((data.yesCount || 0) > 0);
           } else {
+            // Old data or invalid date
             setSnack(null);
             setVerifications(0);
             setIsVerified(false);
           }
-        }, (error) => {
-          console.error("Error fetching snack:", error);
-          setErrorMsg(error.message);
-          setLoading(false);
-        });
-      } catch (err) {
-        console.error("Failed to load Firebase", err);
-        setErrorMsg("Failed to initialize app.");
+
+        } else {
+          // No document exists
+          setSnack(null);
+          setVerifications(0);
+          setIsVerified(false);
+        }
+      },
+      (error) => {
+        console.error("Firebase Connection Error:", error);
+        setErrorMsg("Could not connect to snack database.");
         setLoading(false);
       }
-    };
+    );
 
-    initFirebase();
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
   const handleAddSnack = async (name) => {
-    if (!dbRef.current || !firestoreModuleRef.current) return;
-    const { doc, setDoc, serverTimestamp } = firestoreModuleRef.current;
-
     try {
-      await setDoc(doc(dbRef.current, "snack", "today"), {
+      await setDoc(doc(db, "snack", "today"), {
         snackName: name,
         yesCount: 0,
         updatedAt: serverTimestamp()
       });
     } catch (error) {
       console.error("Error adding snack:", error);
-      alert("Failed to add snack. Please check console.");
+      alert("Failed. Check internet connection.");
     }
   };
 
   const handleVerifySnack = async () => {
-    if (!dbRef.current || !firestoreModuleRef.current) return;
-    const { doc, updateDoc, increment } = firestoreModuleRef.current;
-
     try {
-      await updateDoc(doc(dbRef.current, "snack", "today"), {
+      await updateDoc(doc(db, "snack", "today"), {
         yesCount: increment(1)
       });
-      alert("Thank you for helping other students!");
     } catch (error) {
-      console.error("Error verifying snack:", error);
-      alert("Verification failed.");
+      console.error("Error verifying:", error);
+      alert("Failed to verify.");
     }
   };
 
   const handleUpdateSnack = async (newName) => {
-    if (!dbRef.current || !firestoreModuleRef.current) return;
-    const { doc, updateDoc, serverTimestamp } = firestoreModuleRef.current;
-
     try {
-      await updateDoc(doc(dbRef.current, "snack", "today"), {
+      await updateDoc(doc(db, "snack", "today"), {
         snackName: newName,
         yesCount: 0,
         updatedAt: serverTimestamp()
       });
-      alert("Snack updated successfully");
     } catch (error) {
-      console.error("Error updating snack:", error);
-      alert("Update failed.");
+      console.error("Error updating:", error);
+      alert("Failed to update.");
     }
   };
 
   if (errorMsg) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F9FA] px-4 text-center">
-        <div className="text-red-600 font-bold mb-2">Connection Error</div>
-        <div className="text-gray-700 max-w-md">{errorMsg}</div>
-        <p className="text-sm text-gray-500 mt-4">
-          Tip: Check if Firestore Database is created and rules are open.
-        </p>
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500 font-bold">{errorMsg}</p>
       </div>
     );
   }
@@ -125,6 +132,7 @@ function App() {
     <div className="app-container">
       <HomeScreen
         snack={snack}
+        lastUpdated={lastUpdated}
         verifications={verifications}
         isVerified={isVerified}
         onAddSnack={handleAddSnack}

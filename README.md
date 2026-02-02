@@ -4,26 +4,26 @@ A premium, real-time web application designed to keep students updated on the da
 
 ![App Screenshot](public/screenshot.png)
 
-## ✨ Features
+## ✨ Premium Features
 
-- **🚀 Instant Load Performance**: App shell paints immediately (0ms blocking) using lazy-loading and skeleton screens.
-- **🔥 Real-Time Updates**: Powered by **Firebase Firestore**. Snack updates sync instantly across all devices.
-- **📱 Mobile-First Design**: A clean, "premium" aesthetic with smooth animations and responsive layout.
-- **💾 Offline Persistence**: Works seamlessly even with flaky hostel internet connection.
-- **✅ Verification System**: Students can verify if the snack is actually available or request a correction.
+- **🚀 Instant Zero-Latency Load**: Uses a direct socket connection to Firestore for immediate data availability. No loading spinners, no waiting.
+- **⚡ Real-Time Updates**: Snack changes sync instantly (sub-100ms) across all devices.
+- **� Precision Timestamp**: Shows exactly when the snack was updated, down to the second.
+- **🌑 Auto-Reset Logic**: Intelligent date handling automatically hides yesterday's snack after midnight, ensuring no confusion.
+- **🎨 Premium UI**: Glassmorphism-inspired design with soft shadows, subtle gradients, and smooth micro-animations.
 
 ## 🛠 Tech Stack
 
-- **Frontend**: [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- **Styling**: Vanilla CSS (Variables & Utility classes) + [Lucide Icons](https://lucide.dev/)
-- **Backend / Database**: [Firebase Firestore](https://firebase.google.com/docs/firestore) (NoSQL)
-- **Deployment**: [GitHub](https://github.com/khajashaikjalal/klu-snack-update)
+- **Frontend**: [React 19](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- **Styling**: Vanilla CSS (Variables, Premium Theme) + [Lucide Icons](https://lucide.dev/)
+- **Backend**: [Firebase Firestore](https://firebase.google.com/docs/firestore) (Real-time Database)
+- **Deployment**: [Firebase Hosting](https://firebase.google.com/docs/hosting)
 
 ## ⚡ Getting Started
 
 ### Prerequisites
 
-- Node.js (v16+)
+- Node.js (v18+)
 - npm
 
 ### Installation
@@ -50,22 +50,23 @@ A premium, real-time web application designed to keep students updated on the da
 ```
 src/
 ├── components/
-│   ├── layout/       # Header and container layouts
+│   ├── layout/       # Header and layout components
 │   ├── snack/        # Add/Verify Modals
-│   └── ui/           # Reusable UI (Button, Skeleton)
+│   └── ui/           # Reusable UI (Button, Skeleton, Modal)
 ├── screens/
-│   └── HomeScreen.jsx # Main view logic
-├── App.jsx           # State management & Firebase Logic
-└── index.css         # Global styles & Theme variables
+│   └── HomeScreen.jsx # Main view logic (UI)
+├── App.jsx           # Core Logic (Firebase Connection, Date Filtering)
+├── firebase.js       # Firebase Configuration
+└── index.css         # Premium Styles & Animations
 ```
 
-## 🏎 Performance Optimizations
+## � Key Architecture Decisions
 
-This app uses the "Performance Trinity" strategy:
-1.  **Immediate UI Rendering**: The skeleton UI renders before the JavaScript bundle finishes parsing.
-2.  **Lazy-Loaded Firebase**: The 200kb+ Firebase SDK is imported dynamically *after* the initial paint.
-3.  **Offline Caching**: Firestore persists data to `IndexedDB`, allowing instant loads on subsequent visits.
+1.  **Direct-Connect Pattern**: We removed complex lazy-loading in favor of a robust, direct connection. This ensures reliability and eliminates "flash of empty content".
+2.  **Latency Compensation**: The UI accepts "pending" writes immediately, making the app feel faster than the network.
+3.  **Client-Side Date Filtering**: Intelligent logic in `App.jsx` ensures that stale data from previous days is never shown, maintaining a "fresh" state every morning.
 
 ---
 
 **Developed for Tulips Boys Hostel** 🌷
+© Shaik Jalal Khaja Mohiddin

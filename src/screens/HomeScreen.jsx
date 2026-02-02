@@ -6,7 +6,7 @@ import AddSnackModal from '../components/snack/AddSnackModal';
 import VerificationModal from '../components/snack/VerificationModal';
 import Skeleton from '../components/ui/Skeleton';
 
-const HomeScreen = ({ snack, verifications, isVerified, onAddSnack, onVerifySnack, onUpdateSnack, loading }) => {
+const HomeScreen = ({ snack, lastUpdated, verifications, isVerified, onAddSnack, onVerifySnack, onUpdateSnack, loading }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
 
@@ -61,6 +61,12 @@ const HomeScreen = ({ snack, verifications, isVerified, onAddSnack, onVerifySnac
                                     <Pencil size={20} />
                                 </button>
                             </div>
+                            {/* Timestamp Display */}
+                            {lastUpdated && (
+                                <div className="last-updated">
+                                    Updated at {lastUpdated}
+                                </div>
+                            )}
                             <div className="verification-status">
                                 {isVerified || verifications > 0 ? (
                                     <>
