@@ -11,6 +11,10 @@
   --text-primary: #1a1a1a;
   --text-secondary: #666666;
   --success-color: #00b894;
+  --info-color: #0984e3;
+  --info-bg: rgba(9, 132, 227, 0.1);
+  --warning-color: #d63031;
+  --warning-bg: rgba(214, 48, 49, 0.1);
 }
 
 * {
@@ -131,14 +135,14 @@ body {
 /* --- Timestamp Pill --- */
 .last-updated {
   display: inline-block;
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--info-bg);
   padding: 0.4rem 1rem;
   border-radius: 99px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--info-color);
   margin-bottom: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(9, 132, 227, 0.15);
 }
 
 /* --- Buttons --- */
@@ -274,11 +278,11 @@ body {
 }
 
 .verification-status.unverified {
-  background: rgba(0, 0, 0, 0.03);
-  /* Subtle gray */
-  color: var(--text-secondary);
-  font-weight: 500;
-  font-style: italic;
+  background: var(--warning-bg);
+  color: var(--warning-color);
+  font-weight: 600;
+  font-style: normal;
+  border: 1px solid rgba(214, 48, 49, 0.15);
 }
 
 /* --- Skeleton --- */
