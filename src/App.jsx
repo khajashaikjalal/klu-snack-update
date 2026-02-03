@@ -14,6 +14,27 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  // Admin Mode State
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [logoClickCount, setLogoClickCount] = useState(0);
+
+  useEffect(() => {
+    if (logoClickCount === 5) {
+      const pin = prompt("Enter Admin PIN:");
+      if (pin === "1947") {
+        setIsAdmin(true);
+        alert("Admin Mode Enabled! You can now add snacks at any time.");
+      } else {
+        alert("Incorrect PIN.");
+      }
+      setLogoClickCount(0);
+    }
+  }, [logoClickCount]);
+
+  const handleLogoClick = () => {
+    setLogoClickCount(prev => prev + 1);
+  };
+
   useEffect(() => {
     // Simple, direct listener. No complexity.
     const unsubscribe = onSnapshot(
@@ -164,6 +185,8 @@ function App() {
         onVoteNo={handleVoteNo}
         onUpdateSnack={handleUpdateSnack}
         loading={loading}
+        isAdmin={isAdmin}
+        onLogoClick={handleLogoClick}
       />
     </div>
   );

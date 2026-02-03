@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 
-const AddSnackModal = ({ isOpen, onClose, onSubmit }) => {
+const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
     const [snackName, setSnackName] = useState('');
 
     const [alertMessage, setAlertMessage] = useState('');
 
     const isTimeAllowed = () => {
+        if (isAdmin) return true;
+
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();

@@ -1,10 +1,10 @@
 import React from 'react';
 import logo from '../../assets/logo.png';
 
-const Header = () => {
+const Header = ({ onLogoClick }) => {
     return (
         <header className="app-header fade-in">
-            <div className="logo-container">
+            <div className="logo-container" onClick={onLogoClick} style={{ cursor: 'pointer' }}>
                 <img src={logo} alt="KLU Logo" className="logo-img" />
             </div>
             <h1 className="app-title">Tulips Boys Hostel</h1>

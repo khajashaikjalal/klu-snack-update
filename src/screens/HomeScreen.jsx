@@ -6,7 +6,7 @@ import AddSnackModal from '../components/snack/AddSnackModal';
 import VerificationModal from '../components/snack/VerificationModal';
 import Skeleton from '../components/ui/Skeleton';
 
-const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading }) => {
+const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading, isAdmin, onLogoClick }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
 
@@ -34,7 +34,7 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
 
     return (
         <>
-            <Header />
+            <Header onLogoClick={onLogoClick} />
             <main className="px-4 pb-8 fade-in">
                 <div className="feature-card">
                     <div className="date-display">{today}</div>
@@ -80,19 +80,19 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
                     ) : (
                         <div className="py-8 animate-fade-in">
                             <h2 className="empty-state-title">
-                                {new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)
-                                    ? "Cravings? Hold on! 🛑"
+                                {isAdmin || new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)
+                                    ? isAdmin ? "Welcome Admin! 🛠️" : "Cravings? Hold on! 🛑"
                                     : "Snack not updated yet"}
                             </h2>
                             <p className="empty-state-subtitle">
-                                {new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)
+                                {isAdmin ? "You can add a snack anytime." : (new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)
                                     ? "Today's snack drops at 04:30 PM"
-                                    : "Usually updated after 5:00 PM"}
+                                    : "Usually updated after 5:00 PM")}
                             </p>
                             <Button
                                 onClick={() => setIsAddModalOpen(true)}
                                 variant="primary"
-                                disabled={new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30)}
+                                disabled={!isAdmin && (new Date().getHours() < 16 || (new Date().getHours() === 16 && new Date().getMinutes() < 30))}
                             >
                                 <Plus size={18} /> Add Today's Snack
                             </Button>
@@ -105,6 +105,7 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
                 isOpen={isAddModalOpen}
                 onClose={() => setIsAddModalOpen(false)}
                 onSubmit={handleAddSubmit}
+                isAdmin={isAdmin}
             />
 
             <VerificationModal
