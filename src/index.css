@@ -79,13 +79,10 @@ body {
 }
 
 .app-subtitle {
-  font-size: 0.9rem;
+  font-size: 1.0rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, #32cd32 0%, #76ff03 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #4B0082;
   margin-top: 0.25rem;
 }
 
@@ -112,7 +109,7 @@ body {
 
 .date-display {
   font-size: 0.8rem;
-  color: var(--text-secondary);
+  color: #65000B;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
