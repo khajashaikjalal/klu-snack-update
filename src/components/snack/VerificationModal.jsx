@@ -49,22 +49,13 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
             return;
         }
 
-        // Strict Consensus Logic
-        // 1. Must have at least 20 'No' votes
-        // 2. 'No' votes must exceed 'Yes' votes
-        if ((noCount || 0) >= 20 && (noCount || 0) > (yesCount || 0)) {
-            setShowUpdateInput(true);
-            setAlertMessage('');
-        } else {
-            // Just record a vote
-            onVoteNo();
-            setAlertMessage("Contribution recorded! More negative feedback needed to edit.");
-            // Close after short delay or let them close? 
-            // Better UX: Show message, then close after 1.5s
-            setTimeout(() => {
-                handleClose();
-            }, 2000);
-        }
+        // Just record a vote
+        onVoteNo();
+        setAlertMessage("Contribution recorded! Thanks for your feedback.");
+        // Close after short delay
+        setTimeout(() => {
+            handleClose();
+        }, 2000);
     };
 
     const handleUpdate = () => {
