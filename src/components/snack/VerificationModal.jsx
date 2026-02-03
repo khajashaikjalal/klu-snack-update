@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 
-const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesCount, noCount }) => {
+const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesCount, noCount, isAdmin }) => {
     const [showUpdateInput, setShowUpdateInput] = useState(false);
     const [correctedSnack, setCorrectedSnack] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
@@ -19,6 +19,8 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
     };
 
     const isTimeAllowed = () => {
+        if (isAdmin) return true;
+
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
@@ -37,6 +39,13 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
     const handleNo = () => {
         if (!isTimeAllowed()) {
             setAlertMessage("Contributions open at 4:30 PM!");
+            return;
+        }
+
+        // Admin Override: Immediately allow update
+        if (isAdmin) {
+            setShowUpdateInput(true);
+            setAlertMessage('');
             return;
         }
 

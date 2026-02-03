@@ -4,6 +4,7 @@ import Button from '../ui/Button';
 
 const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
     const [snackName, setSnackName] = useState('');
+    const [description, setDescription] = useState('');
 
     const [alertMessage, setAlertMessage] = useState('');
 
@@ -26,8 +27,9 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
         }
 
         if (snackName.trim()) {
-            onSubmit(snackName);
+            onSubmit(snackName, description);
             setSnackName('');
+            setDescription('');
             setAlertMessage('');
         }
     };
@@ -48,6 +50,14 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
                     onChange={(e) => setSnackName(e.target.value)}
                     autoFocus
                 />
+
+                <textarea
+                    className="input-field h-24 resize-none"
+                    placeholder="Short description (optional) e.g., 'Spicy and crispy'"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+
                 <div className="button-group">
                     <Button type="button" variant="secondary" onClick={onClose}>
                         Cancel

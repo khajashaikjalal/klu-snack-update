@@ -7,6 +7,7 @@ import { doc, onSnapshot, setDoc, updateDoc, increment, serverTimestamp } from '
 
 function App() {
   const [snack, setSnack] = useState(null);
+  const [snackDescription, setSnackDescription] = useState(null);
   const [lastUpdated, setLastUpdated] = useState("");
   const [yesCount, setYesCount] = useState(0); // Renamed from verifications for clarity, though kept prop name usually
   const [noCount, setNoCount] = useState(0);
@@ -46,6 +47,7 @@ function App() {
         if (docSnap.exists()) {
           const data = docSnap.data();
           const snackName = data.snackName;
+          const description = data.description || null;
           const updatedAt = data.updatedAt;
 
           // Logic: 
@@ -82,6 +84,7 @@ function App() {
 
           if (showSnack) {
             setSnack(snackName);
+            setSnackDescription(description);
             setLastUpdated(formattedTime);
             setYesCount(data.yesCount || 0);
             setNoCount(data.noCount || 0);
@@ -89,6 +92,7 @@ function App() {
           } else {
             // Old data or invalid date
             setSnack(null);
+            setSnackDescription(null);
             setYesCount(0);
             setNoCount(0);
             setIsVerified(false);
@@ -97,6 +101,7 @@ function App() {
         } else {
           // No document exists
           setSnack(null);
+          setSnackDescription(null);
           setYesCount(0);
           setNoCount(0);
           setIsVerified(false);
@@ -112,10 +117,11 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  const handleAddSnack = async (name) => {
+  const handleAddSnack = async (name, description) => {
     try {
       await setDoc(doc(db, "snack", "today"), {
         snackName: name,
+        description: description || null,
         yesCount: 0,
         noCount: 0,
         updatedAt: serverTimestamp()
@@ -176,6 +182,7 @@ function App() {
     <div className="app-container">
       <HomeScreen
         snack={snack}
+        description={snackDescription}
         lastUpdated={lastUpdated}
         verifications={yesCount}
         noCount={noCount}

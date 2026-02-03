@@ -6,7 +6,7 @@ import AddSnackModal from '../components/snack/AddSnackModal';
 import VerificationModal from '../components/snack/VerificationModal';
 import Skeleton from '../components/ui/Skeleton';
 
-const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading, isAdmin, onLogoClick }) => {
+const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading, isAdmin, onLogoClick }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
 
@@ -17,8 +17,8 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
         year: 'numeric'
     });
 
-    const handleAddSubmit = (name) => {
-        onAddSnack(name);
+    const handleAddSubmit = (name, description) => {
+        onAddSnack(name, description);
         setIsAddModalOpen(false);
     };
 
@@ -50,9 +50,14 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
                             </div>
                         </div>
                     ) : snack ? (
-                        <div className="animate-fade-in">
+                        <div className="anmiate-fade-in">
                             <div className="snack-display-container">
-                                <h2 className="snack-name">{snack}</h2>
+                                <div className="flex flex-col items-center">
+                                    <h2 className="snack-name">{snack}</h2>
+                                    {description && (
+                                        <p className="text-gray-500 text-sm mt-1">{description}</p>
+                                    )}
+                                </div>
                                 <button
                                     className="edit-icon-btn"
                                     onClick={() => setIsVerifyModalOpen(true)}
@@ -116,6 +121,7 @@ const HomeScreen = ({ snack, lastUpdated, verifications, noCount, isVerified, on
                 onUpdate={handleUpdateCallback}
                 yesCount={verifications}
                 noCount={noCount}
+                isAdmin={isAdmin}
             />
         </>
     );
