@@ -35,7 +35,7 @@ const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, i
     return (
         <>
             <Header onLogoClick={onLogoClick} />
-            <main className="px-4 pb-8 fade-in">
+            <main className="px-4 pb-24 fade-in">
                 <div className="feature-card">
                     <div className="date-display">{today}</div>
 

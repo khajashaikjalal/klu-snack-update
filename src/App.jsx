@@ -4,6 +4,7 @@ import './App.css';
 import './index.css';
 import { db } from './firebase';
 import { doc, onSnapshot, setDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
+import AdBanner from './components/ads/AdBanner';
 
 function App() {
   const [snack, setSnack] = useState(null);
@@ -195,6 +196,7 @@ function App() {
         isAdmin={isAdmin}
         onLogoClick={handleLogoClick}
       />
+      <AdBanner />
     </div>
   );
 }
