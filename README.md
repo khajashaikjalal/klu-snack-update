@@ -17,6 +17,7 @@ A premium, real-time web application designed to keep students updated on the da
 - **Frontend**: [React 19](https://reactjs.org/) + [Vite](https://vitejs.dev/)
 - **Styling**: Vanilla CSS (Variables, Premium Theme) + [Lucide Icons](https://lucide.dev/)
 - **Backend**: [Firebase Firestore](https://firebase.google.com/docs/firestore) (Real-time Database)
+- **Mobile Wrapper**: [Capacitor](https://capacitorjs.com/) (Android) + AdMob
 - **Deployment**: [Firebase Hosting](https://firebase.google.com/docs/hosting)
 
 ## ⚡ Getting Started
