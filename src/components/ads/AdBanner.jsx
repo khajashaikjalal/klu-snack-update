@@ -13,16 +13,14 @@ const AdBanner = () => {
             try {
                 await AdMob.initialize({
                     requestTrackingAuthorization: true,
-                    testingDevices: ['2077ef9a63d2b398840261c8221a0c9b'], // Optional: Add real device IDs here for testing
-                    initializeForTesting: true,
                 });
 
                 await AdMob.showBanner({
-                    adId: 'ca-app-pub-3940256099942544/6300978111', // Android Test ID
+                    adId: 'ca-app-pub-6544094570095953/2247380929', // Production Ad Unit ID
                     adSize: BannerAdSize.ADAPTIVE_BANNER,
                     position: BannerAdPosition.BOTTOM_CENTER,
                     margin: 0,
-                    isTesting: true,
+                    isTesting: false, // Ensure this is false for real ads
                 });
             } catch (error) {
                 console.error('AdMob initialization failed:', error);
