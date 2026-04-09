@@ -5,17 +5,17 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay fade-in">
+        <div className="modal-overlay">
             <div className="modal-content">
-                <div className="modal-header">
-                    <h2 className="modal-title">{title}</h2>
+                <div className="flex justify-between align-center mb-6">
+                    <h2 className="text-xl font-bold">{title}</h2>
                     {onClose && (
-                        <button className="modal-close" onClick={onClose}>
+                        <button className="btn-close" onClick={onClose}>
                             <X size={20} />
                         </button>
                     )}
                 </div>
-                <div className="modal-body">
+                <div className="w-full">
                     {children}
                 </div>
             </div>

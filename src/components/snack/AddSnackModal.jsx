@@ -1,11 +1,42 @@
 import React, { useState } from 'react';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
+import SelectDropdown from '../ui/SelectDropdown';
+
+const SNACK_OPTIONS = [
+    "Aloo Bonda",
+    "Banana Bajji",
+    "Biscuits",
+    "Biscuits and Onion Pakodi",
+    "Cake",
+    "Chat Masala",
+    "Dil Pasand",
+    "Egg/Veg Puffs",
+    "Fried Batany",
+    "Fried Chana",
+    "Fried Palli",
+    "Laddu",
+    "Masala Vada",
+    "Mirchi Bajji",
+    "Mixture",
+    "Onion Pakodi",
+    "Pani Poori",
+    "Pav Baaji",
+    "Potato Bajji",
+    "Punugulu",
+    "Roasted Dry Chana",
+    "Samosa",
+    "Suji(Ravva) Laddu",
+    "Suji(Ravva) Laddu and Mixture",
+    "Sweet Corn",
+    "Veg Manchuria",
+    "Veg Noodles",
+    "Something Other"
+];
 
 const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
-    const [snackName, setSnackName] = useState('');
-    const [description, setDescription] = useState('');
-
+    const [snackName, setSnackName] = useState(SNACK_OPTIONS[0]);
+    const [customSnack, setCustomSnack] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
 
     const isTimeAllowed = () => {
@@ -26,39 +57,43 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
             return;
         }
 
-        if (snackName.trim()) {
-            onSubmit(snackName, description);
-            setSnackName('');
-            setDescription('');
+        const finalSnack = snackName === "Something Other" && isAdmin ? (customSnack || "Something Other") : snackName;
+
+        if (finalSnack.trim()) {
+            onSubmit(finalSnack, null); // Passing null since description is removed
+            setSnackName(SNACK_OPTIONS[0]);
+            setCustomSnack('');
             setAlertMessage('');
+        } else {
+            setAlertMessage("Please specify the snack.");
         }
     };
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="Add today's snack">
             {alertMessage && (
-                <div className="mb-6 p-2 bg-yellow-100 text-yellow-800 rounded text-sm text-center">
+                <div className="mb-4 p-4 bg-yellow-50 text-yellow-600 rounded-lg text-sm text-center">
                     {alertMessage}
                 </div>
             )}
-            <form onSubmit={handleSubmit} className="vertical-stack">
-                <input
-                    type="text"
-                    className="input-field"
-                    placeholder="e.g., Sweet Corn, Tea, and Milk"
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
+                <SelectDropdown
+                    options={SNACK_OPTIONS}
                     value={snackName}
-                    onChange={(e) => setSnackName(e.target.value)}
-                    autoFocus
+                    onChange={setSnackName}
                 />
 
-                <textarea
-                    className="input-field h-24 resize-none"
-                    placeholder="Short description (optional) e.g., 'Spicy and crispy'"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                {snackName === "Something Other" && isAdmin && (
+                    <input
+                        type="text"
+                        className="input-field"
+                        placeholder="Admin: Enter custom snack name"
+                        value={customSnack}
+                        onChange={(e) => setCustomSnack(e.target.value)}
+                    />
+                )}
 
-                <div className="button-group">
+                <div className="flex gap-4 mt-4 w-full">
                     <Button type="button" variant="secondary" onClick={onClose}>
                         Cancel
                     </Button>

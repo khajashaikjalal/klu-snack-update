@@ -35,24 +35,24 @@ const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, i
     return (
         <>
             <Header onLogoClick={onLogoClick} />
-            <main className="px-4 pb-24 fade-in">
+            <main className="p-4 fade-in mb-6">
                 <div className="feature-card">
                     <div className="date-display">{today}</div>
 
                     {loading ? (
-                        <div className="flex flex-col items-center gap-4 py-4">
+                        <div className="flex flex-col align-center gap-4 py-4">
                             {/* Snack Name Skeleton */}
-                            <Skeleton className="h-8 w-3/4 rounded-md" />
+                            <Skeleton style={{ height: '2rem', width: '75%', borderRadius: '0.5rem' }} />
 
                             {/* Status/Icon Skeleton */}
-                            <div className="flex items-center gap-2 mt-2">
-                                <Skeleton className="h-4 w-32 rounded" />
+                            <div className="flex align-center gap-2 mt-2">
+                                <Skeleton style={{ height: '1rem', width: '8rem', borderRadius: '0.25rem' }} />
                             </div>
                         </div>
                     ) : snack ? (
                         <div className="anmiate-fade-in">
                             <div className="snack-display-container">
-                                <div className="flex flex-col items-center">
+                                <div className="flex flex-col align-center">
                                     <h2 className="snack-name">{snack}</h2>
                                     {description && (
                                         <p className="text-gray-500 text-sm mt-1">{description}</p>
@@ -66,12 +66,6 @@ const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, i
                                     <Pencil size={20} />
                                 </button>
                             </div>
-                            {lastUpdated && (
-                                <div className="last-updated">
-                                    Updated at {lastUpdated}
-                                </div>
-                            )}
-
                             {isVerified || verifications > 0 ? (
                                 <div className="verification-status verified">
                                     <Check size={16} /> Verified by {verifications} student{verifications !== 1 ? 's' : ''}
@@ -79,6 +73,12 @@ const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, i
                             ) : (
                                 <div className="verification-status unverified">
                                     Not verified yet
+                                </div>
+                            )}
+
+                            {lastUpdated && (
+                                <div className="last-updated">
+                                    Updated at {lastUpdated}
                                 </div>
                             )}
                         </div>
