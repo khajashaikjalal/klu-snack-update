@@ -10,6 +10,8 @@ const SNACK_OPTIONS = [
     "Biscuits and Onion Pakodi",
     "Cake",
     "Chat Masala",
+    "Chocolate Dilpasand",
+    "Cream Bun",
     "Dil Pasand",
     "Egg/Veg Puffs",
     "Fried Batany",
