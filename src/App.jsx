@@ -198,7 +198,7 @@ function App() {
       />
       <AdBanner />
       <footer className="app-footer">
-        All rights reserved SJKM
+        © 2026 SJKM. All rights reserved.
       </footer>
     </div>
   );
