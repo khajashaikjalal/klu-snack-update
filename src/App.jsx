@@ -197,6 +197,9 @@ function App() {
         onLogoClick={handleLogoClick}
       />
       <AdBanner />
+      <footer className="app-footer">
+        All rights reserved SJKM
+      </footer>
     </div>
   );
 }
