@@ -167,7 +167,7 @@ function App() {
   };
 
   const handleVerifySnack = async () => {
-    if (hasContributedToday || isSubmitting) return;
+    if ((hasContributedToday && !isAdmin) || isSubmitting) return;
 
     setIsSubmitting(true);
     try {
@@ -186,7 +186,7 @@ function App() {
   };
 
   const handleVoteNo = async () => {
-    if (hasContributedToday || isSubmitting) return;
+    if ((hasContributedToday && !isAdmin) || isSubmitting) return;
 
     setIsSubmitting(true);
     try {
