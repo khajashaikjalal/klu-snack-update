@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import SelectDropdown from '../ui/SelectDropdown';
+import { AlertTriangle } from 'lucide-react';
 
 const SNACK_OPTIONS = [
     "Aloo Bonda",
@@ -97,14 +98,24 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
             {showWarning ? (
                 <div className="flex flex-col gap-6">
                     <div className="warning-box bg-red-50 text-gray-800 rounded-2xl border border-red-100 shadow-sm">
-                        <p className="warning-title text-lg font-bold text-red-600 mb-3">Wait! Think before you add. Once Add you cannot Update. Remember it!</p>
+                        <div className="warning-title text-red-600 font-bold mb-4">
+                            <AlertTriangle size={24} />
+                            <span>Wait! Think before you add.</span>
+                        </div>
+                        
+                        <p className="text-center text-red-700 font-bold text-lg mb-6 leading-tight max-w-md mx-auto">
+                            Once Add you cannot Update. Remember it!
+                        </p>
+                        
+                        <div className="h-px bg-red-100 w-full mb-6"></div>
                         
                         <div className="warning-text flex flex-col gap-4 text-md leading-relaxed">
                             <p>
-                                <span className="font-bold text-primary-color">NOTE:</span> For those being negative or making jokes — remember, you are helping hundreds of your hostel friends. Use technology wisely and for a good purpose. I believe we are all literate, right?
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-600 mr-2">NOTE</span>
+                                For those being negative or making jokes — remember, you are helping hundreds of your hostel friends. Use technology wisely and for a good purpose. I believe we are all literate, right?
                             </p>
                             
-                            <p className="italic font-medium text-gray-700">
+                            <p className="italic font-medium text-gray-700 border-l-4 border-gray-200 pl-4 py-1">
                                 If you have the courage, try building an application like this yourself. Having knowledge and getting a job is not everything; having common sense and civic sense matters far more.
                             </p>
                         </div>
