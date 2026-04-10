@@ -108,7 +108,7 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
                 </div>
             )}
 
-            {hasContributedToday && (
+            {hasContributedToday && !isAdmin && (
                 <div className="mb-6 bg-green-50 text-green-700 p-4 rounded-xl text-center font-medium border border-green-100 animate-fade-in">
                     Combined contribution recorded! 🌟<br/>
                     <span className="text-sm opacity-80 font-normal">Thanks for helping your friends today. See you tomorrow!</span>
@@ -117,7 +117,7 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
 
             {!showUpdateInput ? (
                 <div className="flex flex-col gap-2 w-full">
-                    {hasContributedToday ? (
+                    {hasContributedToday && !isAdmin ? (
                         <Button variant="primary" onClick={handleClose} className="w-full mt-2">
                             Done
                         </Button>
