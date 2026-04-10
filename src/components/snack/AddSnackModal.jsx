@@ -97,17 +97,21 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
             
             {showWarning ? (
                 <div className="flex flex-col gap-4">
-                    <div className="bg-indigo-50 text-indigo-900 rounded-xl border border-indigo-100 shadow-sm p-5">
-                        <p className="text-xl font-bold text-center mb-3">
-                            Please take a moment to think before adding.
+                    <div className="bg-indigo-50 text-indigo-900 rounded-xl border border-indigo-100 shadow-sm p-4 sm:p-5">
+                        <p className="text-red-600 font-black text-center mb-3 animate-pulse uppercase tracking-tight text-sm sm:text-base">
+                            ⚠️ REMEMBER: Once Added, You Cannot Update it! ⚠️
                         </p>
                         
-                        <div className="space-y-4 text-sm leading-relaxed">
-                            <p className="font-medium">
+                        <p className="text-lg font-bold text-center mb-4 leading-tight">
+                            Please take a moment to <br className="sm:hidden"/> think before adding.
+                        </p>
+                        
+                        <div className="space-y-3 text-sm leading-snug text-left">
+                            <p className="font-medium border-l-4 border-indigo-300 pl-3">
                                 <span className="text-indigo-600 font-bold">Note:</span> This platform is here to help many of your hostel friends. Let’s use it responsibly and for a positive purpose.
                             </p>
                             
-                            <p className="text-gray-700 bg-white/50 p-3 rounded-lg border border-indigo-100/50 italic">
+                            <p className="text-gray-700 bg-white/60 p-3 rounded-lg border border-indigo-100/50 italic leading-relaxed">
                                 If you have ideas for improvement, you’re always welcome to contribute or build something of your own. Knowledge and career growth matter, but so do common sense and civic responsibility.
                             </p>
                         </div>
