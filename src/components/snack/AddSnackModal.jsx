@@ -96,10 +96,10 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
             
             {showWarning ? (
                 <div className="flex flex-col gap-6">
-                    <div className="p-5 bg-red-50 text-gray-800 rounded-2xl border border-red-100 shadow-sm">
-                        <p className="text-lg font-bold text-red-600 mb-3">Wait! Think before you add.</p>
+                    <div className="warning-box bg-red-50 text-gray-800 rounded-2xl border border-red-100 shadow-sm">
+                        <p className="warning-title text-lg font-bold text-red-600 mb-3">Wait! Think before you add.</p>
                         
-                        <div className="flex flex-col gap-4 text-md leading-relaxed">
+                        <div className="warning-text flex flex-col gap-4 text-md leading-relaxed">
                             <p>
                                 <span className="font-bold text-primary-color">NOTE:</span> For those being negative or making jokes — remember, you are helping hundreds of your hostel friends. Use technology wisely and for a good purpose. I believe we are all literate, right?
                             </p>
@@ -110,7 +110,7 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
                         </div>
                     </div>
 
-                    <div className="flex gap-4 w-full">
+                    <div className="modal-actions">
                         <Button type="button" variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
@@ -137,7 +137,7 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
                         />
                     )}
 
-                    <div className="flex gap-4 mt-4 w-full">
+                    <div className="modal-actions mt-4">
                         <Button type="button" variant="secondary" onClick={() => setShowWarning(true)}>
                             Go Back
                         </Button>

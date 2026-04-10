@@ -287,8 +287,16 @@ button {
   padding: 0.5rem;
 }
 
+.p-3 {
+  padding: 0.75rem;
+}
+
 .p-4 {
   padding: 1rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
 }
 
 .p-6 {
@@ -425,6 +433,13 @@ button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Modals & Actions */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
 }
 
 /* Modals */
@@ -760,5 +775,32 @@ button {
 
   .snack-name {
     font-size: 1.8rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .warning-box {
+    padding: 1rem !important;
+  }
+
+  .warning-title {
+    font-size: 1.1rem !important;
+  }
+
+  .warning-text {
+    font-size: 0.9rem !important;
   }
 }
