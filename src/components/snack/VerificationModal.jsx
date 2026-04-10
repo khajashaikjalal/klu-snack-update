@@ -157,17 +157,19 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
 
                     {correctedSnack === "Something Other" && isAdmin && (
                         <div className="relative mb-2">
-                            <input
-                                type="text"
-                                className="input-field"
-                                placeholder="Admin: Enter correct custom snack name"
-                                value={customSnack}
-                                maxLength={30}
-                                onChange={(e) => setCustomSnack(e.target.value)}
-                            />
-                            <div className="text-right text-sm text-gray-500 mt-1">
-                                {customSnack.length}/30
-                            </div>
+                             <input
+                                 type="text"
+                                 className="input-field"
+                                 placeholder="Admin: Enter correct custom snack name"
+                                 value={customSnack}
+                                 maxLength={isAdmin ? 100 : 30}
+                                 onChange={(e) => setCustomSnack(e.target.value)}
+                             />
+                             {!isAdmin && (
+                                 <div className="text-right text-sm text-gray-500 mt-1">
+                                     {customSnack.length}/30
+                                 </div>
+                             )}
                         </div>
                     )}
 

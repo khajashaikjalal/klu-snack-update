@@ -97,19 +97,18 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
             
             {showWarning ? (
                 <div className="flex flex-col gap-4">
-                    <div className="warning-box bg-red-50 text-gray-800 rounded-xl border border-red-100 shadow-sm p-4">
-                        <p className="text-red-600 font-bold text-center mb-2 leading-tight">
-                            Wait! Think before you add. <br/>
-                            <span className="text-sm opacity-90 font-medium text-red-700">Once Added, you cannot Update. Remember it!</span>
+                    <div className="bg-indigo-50 text-indigo-900 rounded-xl border border-indigo-100 shadow-sm p-5">
+                        <p className="text-xl font-bold text-center mb-3">
+                            Please take a moment to think before adding.
                         </p>
                         
-                        <div className="warning-text flex flex-col gap-3 text-sm leading-snug">
-                            <p>
-                                <span className="font-bold text-red-600">NOTE:</span> For those being negative or making jokes — remember, you are helping hundreds of friends. Use technology wisely.
+                        <div className="space-y-4 text-sm leading-relaxed">
+                            <p className="font-medium">
+                                <span className="text-indigo-600 font-bold">Note:</span> This platform is here to help many of your hostel friends. Let’s use it responsibly and for a positive purpose.
                             </p>
                             
-                            <p className="italic font-medium text-gray-700 border-l-2 border-red-200 pl-3">
-                                Building this takes effort. Common sense and civic sense matters far more than just a job.
+                            <p className="text-gray-700 bg-white/50 p-3 rounded-lg border border-indigo-100/50 italic">
+                                If you have ideas for improvement, you’re always welcome to contribute or build something of your own. Knowledge and career growth matter, but so do common sense and civic responsibility.
                             </p>
                         </div>
                     </div>
