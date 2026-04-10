@@ -15,6 +15,7 @@ function App() {
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasContributedToday, setHasContributedToday] = useState(false);
 
   // Admin Mode State
@@ -40,7 +41,7 @@ function App() {
 
   useEffect(() => {
     const checkContribution = () => {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local
       const lastContributed = localStorage.getItem('lastContributionDate');
       if (lastContributed === today) {
         setHasContributedToday(true);
@@ -137,15 +138,17 @@ function App() {
   }, []);
 
   const recordContribution = () => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toLocaleDateString('en-CA');
     localStorage.setItem('lastContributionDate', today);
     setHasContributedToday(true);
   };
 
   const handleAddSnack = async (name, description) => {
-    if (hasContributedToday && !isAdmin) return;
+    if (hasContributedToday || isSubmitting) return;
 
+    setIsSubmitting(true);
     try {
+      setHasContributedToday(true);
       await setDoc(doc(db, "snack", "today"), {
         snackName: name,
         description: description || null,
@@ -153,38 +156,51 @@ function App() {
         noCount: 0,
         updatedAt: serverTimestamp()
       });
-      if (!isAdmin) recordContribution();
+      recordContribution();
     } catch (error) {
       console.error("Error adding snack:", error);
       alert("Failed. Check internet connection.");
+      if (!isAdmin) setHasContributedToday(false);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleVerifySnack = async () => {
-    if (hasContributedToday && !isAdmin) return;
+    if (hasContributedToday || isSubmitting) return;
 
+    setIsSubmitting(true);
     try {
+      setHasContributedToday(true);
       await updateDoc(doc(db, "snack", "today"), {
         yesCount: increment(1)
       });
-      if (!isAdmin) recordContribution();
+      recordContribution();
     } catch (error) {
       console.error("Error verifying:", error);
       alert("Failed to verify.");
+      setHasContributedToday(false);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleVoteNo = async () => {
-    if (hasContributedToday && !isAdmin) return;
+    if (hasContributedToday || isSubmitting) return;
 
+    setIsSubmitting(true);
     try {
+      setHasContributedToday(true);
       await updateDoc(doc(db, "snack", "today"), {
         noCount: increment(1)
       });
-      if (!isAdmin) recordContribution();
+      recordContribution();
     } catch (error) {
       console.error("Error recording contribution:", error);
       alert("Failed to record contribution.");
+      setHasContributedToday(false);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -229,6 +245,7 @@ function App() {
         isAdmin={isAdmin}
         onLogoClick={handleLogoClick}
         hasContributedToday={hasContributedToday}
+        isSubmitting={isSubmitting}
       />
       <AdBanner />
       <footer className="app-footer">

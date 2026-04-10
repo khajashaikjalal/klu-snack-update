@@ -149,6 +149,16 @@ button {
   box-shadow: var(--shadow-sm);
 }
 
+.btn-primary:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: grayscale(0.5);
+  opacity: 0.8;
+}
+
 .btn-secondary {
   width: 100%;
   padding: 1rem 2rem;
@@ -165,6 +175,15 @@ button {
   background: rgba(255, 255, 255, 0.9);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+
+.btn-secondary:disabled {
+  background: rgba(0, 0, 0, 0.03);
+  color: #cbd5e1;
+  border-color: rgba(0, 0, 0, 0.05);
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .btn-text {

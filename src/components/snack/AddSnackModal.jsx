@@ -37,7 +37,7 @@ const SNACK_OPTIONS = [
     "Something Other"
 ];
 
-const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday }) => {
+const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday, isSubmitting }) => {
     const [snackName, setSnackName] = useState(SNACK_OPTIONS[0]);
     const [customSnack, setCustomSnack] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
@@ -121,17 +121,25 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
                     )}
 
                     <div className="modal-actions">
-                        <Button type="button" variant="secondary" onClick={handleClose}>
-                            Cancel
-                        </Button>
-                        <Button 
-                            type="button" 
-                            variant="primary" 
-                            onClick={() => setShowWarning(false)}
-                            disabled={hasContributedToday && !isAdmin}
-                        >
-                            I Understand
-                        </Button>
+                        {hasContributedToday && !isAdmin ? (
+                            <Button type="button" variant="primary" onClick={handleClose} className="w-full">
+                                Close
+                            </Button>
+                        ) : (
+                            <>
+                                <Button type="button" variant="secondary" onClick={handleClose}>
+                                    Cancel
+                                </Button>
+                                <Button 
+                                    type="button" 
+                                    variant="primary" 
+                                    onClick={() => setShowWarning(false)}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? "Processing..." : "I Understand"}
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </div>
             ) : (
@@ -159,9 +167,9 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
                         <Button 
                             type="submit" 
                             variant="primary"
-                            disabled={hasContributedToday && !isAdmin}
+                            disabled={isSubmitting || (hasContributedToday && !isAdmin)}
                         >
-                            Add Snack
+                            {isSubmitting ? "Adding..." : "Add Snack"}
                         </Button>
                     </div>
                 </form>

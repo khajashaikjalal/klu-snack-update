@@ -6,7 +6,7 @@ import AddSnackModal from '../components/snack/AddSnackModal';
 import VerificationModal from '../components/snack/VerificationModal';
 import Skeleton from '../components/ui/Skeleton';
 
-const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading, isAdmin, onLogoClick, hasContributedToday }) => {
+const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, isVerified, onAddSnack, onVerifySnack, onVoteNo, onUpdateSnack, loading, isAdmin, onLogoClick, hasContributedToday, isSubmitting }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
 
@@ -24,6 +24,11 @@ const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, i
 
     const handleVerificationYes = () => {
         onVerifySnack();
+        setIsVerifyModalOpen(false);
+    };
+
+    const handleVerificationNo = () => {
+        onVoteNo();
         setIsVerifyModalOpen(false);
     };
 
@@ -112,18 +117,20 @@ const HomeScreen = ({ snack, description, lastUpdated, verifications, noCount, i
                 onSubmit={handleAddSubmit}
                 isAdmin={isAdmin}
                 hasContributedToday={hasContributedToday}
+                isSubmitting={isSubmitting}
             />
 
             <VerificationModal
                 isOpen={isVerifyModalOpen}
                 onClose={() => setIsVerifyModalOpen(false)}
                 onVerify={handleVerificationYes}
-                onVoteNo={onVoteNo}
+                onVoteNo={handleVerificationNo}
                 onUpdate={handleUpdateCallback}
                 yesCount={verifications}
                 noCount={noCount}
                 isAdmin={isAdmin}
                 hasContributedToday={hasContributedToday}
+                isSubmitting={isSubmitting}
             />
         </>
     );

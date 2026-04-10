@@ -36,7 +36,7 @@ const SNACK_OPTIONS = [
     "Something Other"
 ];
 
-const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesCount, noCount, isAdmin, hasContributedToday }) => {
+const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesCount, noCount, isAdmin, hasContributedToday, isSubmitting }) => {
     const [showUpdateInput, setShowUpdateInput] = useState(false);
     const [correctedSnack, setCorrectedSnack] = useState(SNACK_OPTIONS[0]);
     const [customSnack, setCustomSnack] = useState('');
@@ -87,11 +87,6 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
 
         // Just record a vote
         onVoteNo();
-        setAlertMessage("Contribution recorded! Thanks for your feedback.");
-        // Close after short delay
-        setTimeout(() => {
-            handleClose();
-        }, 2000);
     };
 
     const handleUpdate = () => {
@@ -113,7 +108,7 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
                 </div>
             )}
 
-            {hasContributedToday && !isAdmin && (
+            {hasContributedToday && (
                 <div className="mb-6 bg-green-50 text-green-700 p-4 rounded-xl text-center font-medium border border-green-100 animate-fade-in">
                     Combined contribution recorded! 🌟<br/>
                     <span className="text-sm opacity-80 font-normal">Thanks for helping your friends today. See you tomorrow!</span>
@@ -122,25 +117,35 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
 
             {!showUpdateInput ? (
                 <div className="flex flex-col gap-2 w-full">
-                    <Button 
-                        variant="primary" 
-                        onClick={handleYes} 
-                        className="w-full"
-                        disabled={hasContributedToday && !isAdmin}
-                    >
-                        Yes
-                    </Button>
-                    <Button 
-                        variant="secondary" 
-                        onClick={handleNo} 
-                        className="w-full"
-                        disabled={hasContributedToday && !isAdmin}
-                    >
-                        No
-                    </Button>
-                    <Button variant="secondary" onClick={handleClose} className="w-full">
-                        {hasContributedToday && !isAdmin ? "Done" : "Not sure"}
-                    </Button>
+                    {hasContributedToday ? (
+                        <Button variant="primary" onClick={handleClose} className="w-full mt-2">
+                            Done
+                        </Button>
+                    ) : (
+                        <>
+                            <Button 
+                                variant="primary" 
+                                onClick={handleYes} 
+                                className="w-full"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? "Sending..." : "Yes, it's correct"}
+                            </Button>
+                            <Button 
+                                variant="secondary" 
+                                onClick={handleNo} 
+                                className="w-full"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? "..." : "No, it's something else"}
+                            </Button>
+                            {!isSubmitting && (
+                                <Button variant="text" onClick={handleClose} className="mt-2 text-sm opacity-60">
+                                    Not sure
+                                </Button>
+                            )}
+                        </>
+                    )}
                 </div>
             ) : (
                 <div className="flex flex-col gap-4 w-full">
