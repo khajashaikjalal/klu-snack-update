@@ -36,7 +36,7 @@ const SNACK_OPTIONS = [
     "Something Other"
 ];
 
-const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
+const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday }) => {
     const [snackName, setSnackName] = useState(SNACK_OPTIONS[0]);
     const [customSnack, setCustomSnack] = useState('');
     const [alertMessage, setAlertMessage] = useState('');
@@ -97,7 +97,7 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
             {showWarning ? (
                 <div className="flex flex-col gap-6">
                     <div className="warning-box bg-red-50 text-gray-800 rounded-2xl border border-red-100 shadow-sm">
-                        <p className="warning-title text-lg font-bold text-red-600 mb-3">Wait! Think before you add.</p>
+                        <p className="warning-title text-lg font-bold text-red-600 mb-3">Wait! Think before you add. Once Add you cannot Update. Remember it!</p>
                         
                         <div className="warning-text flex flex-col gap-4 text-md leading-relaxed">
                             <p>
@@ -110,11 +110,23 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
                         </div>
                     </div>
 
+                    {hasContributedToday && !isAdmin && (
+                        <div className="bg-green-50 text-green-700 p-4 rounded-xl text-center font-medium border border-green-100 animate-fade-in">
+                            You've already contributed today! 🌟 <br/>
+                            <span className="text-sm opacity-80">You can add again tomorrow.</span>
+                        </div>
+                    )}
+
                     <div className="modal-actions">
                         <Button type="button" variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
-                        <Button type="button" variant="primary" onClick={() => setShowWarning(false)}>
+                        <Button 
+                            type="button" 
+                            variant="primary" 
+                            onClick={() => setShowWarning(false)}
+                            disabled={hasContributedToday && !isAdmin}
+                        >
                             I Understand, Proceed
                         </Button>
                     </div>
@@ -141,7 +153,11 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin }) => {
                         <Button type="button" variant="secondary" onClick={() => setShowWarning(true)}>
                             Go Back
                         </Button>
-                        <Button type="submit" variant="primary">
+                        <Button 
+                            type="submit" 
+                            variant="primary"
+                            disabled={hasContributedToday && !isAdmin}
+                        >
                             Add Snack
                         </Button>
                     </div>

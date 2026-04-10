@@ -15,6 +15,7 @@ function App() {
   const [isVerified, setIsVerified] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [hasContributedToday, setHasContributedToday] = useState(false);
 
   // Admin Mode State
   const [isAdmin, setIsAdmin] = useState(false);
@@ -36,6 +37,23 @@ function App() {
   const handleLogoClick = () => {
     setLogoClickCount(prev => prev + 1);
   };
+
+  useEffect(() => {
+    const checkContribution = () => {
+      const today = new Date().toISOString().split('T')[0];
+      const lastContributed = localStorage.getItem('lastContributionDate');
+      if (lastContributed === today) {
+        setHasContributedToday(true);
+      } else {
+        setHasContributedToday(false);
+      }
+    };
+    
+    checkContribution();
+    // Also check on tab focus in case they contributed in another tab
+    window.addEventListener('focus', checkContribution);
+    return () => window.removeEventListener('focus', checkContribution);
+  }, []);
 
   useEffect(() => {
     // Simple, direct listener. No complexity.
@@ -118,7 +136,15 @@ function App() {
     return () => unsubscribe();
   }, []);
 
+  const recordContribution = () => {
+    const today = new Date().toISOString().split('T')[0];
+    localStorage.setItem('lastContributionDate', today);
+    setHasContributedToday(true);
+  };
+
   const handleAddSnack = async (name, description) => {
+    if (hasContributedToday && !isAdmin) return;
+
     try {
       await setDoc(doc(db, "snack", "today"), {
         snackName: name,
@@ -127,6 +153,7 @@ function App() {
         noCount: 0,
         updatedAt: serverTimestamp()
       });
+      if (!isAdmin) recordContribution();
     } catch (error) {
       console.error("Error adding snack:", error);
       alert("Failed. Check internet connection.");
@@ -134,10 +161,13 @@ function App() {
   };
 
   const handleVerifySnack = async () => {
+    if (hasContributedToday && !isAdmin) return;
+
     try {
       await updateDoc(doc(db, "snack", "today"), {
         yesCount: increment(1)
       });
+      if (!isAdmin) recordContribution();
     } catch (error) {
       console.error("Error verifying:", error);
       alert("Failed to verify.");
@@ -145,10 +175,13 @@ function App() {
   };
 
   const handleVoteNo = async () => {
+    if (hasContributedToday && !isAdmin) return;
+
     try {
       await updateDoc(doc(db, "snack", "today"), {
         noCount: increment(1)
       });
+      if (!isAdmin) recordContribution();
     } catch (error) {
       console.error("Error recording contribution:", error);
       alert("Failed to record contribution.");
@@ -195,6 +228,7 @@ function App() {
         loading={loading}
         isAdmin={isAdmin}
         onLogoClick={handleLogoClick}
+        hasContributedToday={hasContributedToday}
       />
       <AdBanner />
       <footer className="app-footer">

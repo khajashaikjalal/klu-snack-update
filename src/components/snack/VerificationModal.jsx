@@ -36,7 +36,7 @@ const SNACK_OPTIONS = [
     "Something Other"
 ];
 
-const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesCount, noCount, isAdmin }) => {
+const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesCount, noCount, isAdmin, hasContributedToday }) => {
     const [showUpdateInput, setShowUpdateInput] = useState(false);
     const [correctedSnack, setCorrectedSnack] = useState(SNACK_OPTIONS[0]);
     const [customSnack, setCustomSnack] = useState('');
@@ -113,16 +113,33 @@ const VerificationModal = ({ isOpen, onClose, onVerify, onVoteNo, onUpdate, yesC
                 </div>
             )}
 
+            {hasContributedToday && !isAdmin && (
+                <div className="mb-6 bg-green-50 text-green-700 p-4 rounded-xl text-center font-medium border border-green-100 animate-fade-in">
+                    Combined contribution recorded! 🌟<br/>
+                    <span className="text-sm opacity-80 font-normal">Thanks for helping your friends today. See you tomorrow!</span>
+                </div>
+            )}
+
             {!showUpdateInput ? (
                 <div className="flex flex-col gap-2 w-full">
-                    <Button variant="primary" onClick={handleYes} className="w-full">
+                    <Button 
+                        variant="primary" 
+                        onClick={handleYes} 
+                        className="w-full"
+                        disabled={hasContributedToday && !isAdmin}
+                    >
                         Yes
                     </Button>
-                    <Button variant="secondary" onClick={handleNo} className="w-full">
+                    <Button 
+                        variant="secondary" 
+                        onClick={handleNo} 
+                        className="w-full"
+                        disabled={hasContributedToday && !isAdmin}
+                    >
                         No
                     </Button>
                     <Button variant="secondary" onClick={handleClose} className="w-full">
-                        Not sure
+                        {hasContributedToday && !isAdmin ? "Done" : "Not sure"}
                     </Button>
                 </div>
             ) : (
