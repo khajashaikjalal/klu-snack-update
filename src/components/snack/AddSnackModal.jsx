@@ -96,35 +96,27 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
             )}
             
             {showWarning ? (
-                <div className="flex flex-col gap-6">
-                    <div className="warning-box bg-red-50 text-gray-800 rounded-2xl border border-red-100 shadow-sm">
-                        <div className="warning-title text-red-600 font-bold mb-4">
-                            <AlertTriangle size={24} />
-                            <span>Wait! Think before you add.</span>
-                        </div>
-                        
-                        <p className="text-center text-red-700 font-bold text-lg mb-6 leading-tight max-w-md mx-auto">
-                            Once Add you cannot Update. Remember it!
+                <div className="flex flex-col gap-4">
+                    <div className="warning-box bg-red-50 text-gray-800 rounded-xl border border-red-100 shadow-sm p-4">
+                        <p className="text-red-600 font-bold text-center mb-2 leading-tight">
+                            Wait! Think before you add. <br/>
+                            <span className="text-sm opacity-90 font-medium text-red-700">Once Added, you cannot Update. Remember it!</span>
                         </p>
                         
-                        <div className="h-px bg-red-100 w-full mb-6"></div>
-                        
-                        <div className="warning-text flex flex-col gap-4 text-md leading-relaxed">
+                        <div className="warning-text flex flex-col gap-3 text-sm leading-snug">
                             <p>
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-600 mr-2">NOTE</span>
-                                For those being negative or making jokes — remember, you are helping hundreds of your hostel friends. Use technology wisely and for a good purpose. I believe we are all literate, right?
+                                <span className="font-bold text-red-600">NOTE:</span> For those being negative or making jokes — remember, you are helping hundreds of friends. Use technology wisely.
                             </p>
                             
-                            <p className="italic font-medium text-gray-700 border-l-4 border-gray-200 pl-4 py-1">
-                                If you have the courage, try building an application like this yourself. Having knowledge and getting a job is not everything; having common sense and civic sense matters far more.
+                            <p className="italic font-medium text-gray-700 border-l-2 border-red-200 pl-3">
+                                Building this takes effort. Common sense and civic sense matters far more than just a job.
                             </p>
                         </div>
                     </div>
 
                     {hasContributedToday && !isAdmin && (
-                        <div className="bg-green-50 text-green-700 p-4 rounded-xl text-center font-medium border border-green-100 animate-fade-in">
-                            You've already contributed today! 🌟 <br/>
-                            <span className="text-sm opacity-80">You can add again tomorrow.</span>
+                        <div className="bg-green-50 text-green-700 p-3 rounded-lg text-center text-sm font-medium border border-green-100 animate-fade-in">
+                            Already contributed today! 🌟
                         </div>
                     )}
 
@@ -138,7 +130,7 @@ const AddSnackModal = ({ isOpen, onClose, onSubmit, isAdmin, hasContributedToday
                             onClick={() => setShowWarning(false)}
                             disabled={hasContributedToday && !isAdmin}
                         >
-                            I Understand, Proceed
+                            I Understand
                         </Button>
                     </div>
                 </div>
